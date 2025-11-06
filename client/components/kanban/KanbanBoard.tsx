@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
-import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,11 +25,41 @@ export type Card = {
 export type ColumnId = "todo" | "inprogress" | "review" | "done";
 
 const initial: Card[] = [
-  { id: "1", title: "Design landing hero", assignee: { name: "Lia", avatar: "https://i.pravatar.cc/96?img=32" }, status: "todo", tag: "Design" },
-  { id: "2", title: "Set up dnd-kit", assignee: { name: "Ray", avatar: "https://i.pravatar.cc/96?img=14" }, status: "inprogress", tag: "Dev" },
-  { id: "3", title: "Notes panel markdown", assignee: { name: "Ana", avatar: "https://i.pravatar.cc/96?img=24" }, status: "review", tag: "Docs" },
-  { id: "4", title: "Confetti on Done move", assignee: { name: "Eli", avatar: "https://i.pravatar.cc/96?img=5" }, status: "todo", tag: "Polish" },
-  { id: "5", title: "Dark/Light theme", assignee: { name: "Mia", avatar: "https://i.pravatar.cc/96?img=40" }, status: "done", tag: "UI" },
+  {
+    id: "1",
+    title: "Design landing hero",
+    assignee: { name: "Lia", avatar: "https://i.pravatar.cc/96?img=32" },
+    status: "todo",
+    tag: "Design",
+  },
+  {
+    id: "2",
+    title: "Set up dnd-kit",
+    assignee: { name: "Ray", avatar: "https://i.pravatar.cc/96?img=14" },
+    status: "inprogress",
+    tag: "Dev",
+  },
+  {
+    id: "3",
+    title: "Notes panel markdown",
+    assignee: { name: "Ana", avatar: "https://i.pravatar.cc/96?img=24" },
+    status: "review",
+    tag: "Docs",
+  },
+  {
+    id: "4",
+    title: "Confetti on Done move",
+    assignee: { name: "Eli", avatar: "https://i.pravatar.cc/96?img=5" },
+    status: "todo",
+    tag: "Polish",
+  },
+  {
+    id: "5",
+    title: "Dark/Light theme",
+    assignee: { name: "Mia", avatar: "https://i.pravatar.cc/96?img=40" },
+    status: "done",
+    tag: "UI",
+  },
 ];
 
 const columns: { id: ColumnId; title: string }[] = [
@@ -38,10 +73,13 @@ export default function KanbanBoard() {
   const [cards, setCards] = useState<Card[]>(initial);
 
   const byColumn = useMemo(() => {
-    return columns.reduce<Record<ColumnId, Card[]>>((acc, col) => {
-      acc[col.id] = cards.filter((c) => c.status === col.id);
-      return acc;
-    }, { todo: [], inprogress: [], review: [], done: [] });
+    return columns.reduce<Record<ColumnId, Card[]>>(
+      (acc, col) => {
+        acc[col.id] = cards.filter((c) => c.status === col.id);
+        return acc;
+      },
+      { todo: [], inprogress: [], review: [], done: [] },
+    );
   }, [cards]);
 
   function onDragEnd(event: DragEndEvent) {
@@ -53,7 +91,11 @@ export default function KanbanBoard() {
 
     // If dropping on a column header, change status
     if (["todo", "inprogress", "review", "done"].includes(overId)) {
-      setCards((prev) => prev.map((c) => (c.id === activeId ? { ...c, status: overId as ColumnId } : c)));
+      setCards((prev) =>
+        prev.map((c) =>
+          c.id === activeId ? { ...c, status: overId as ColumnId } : c,
+        ),
+      );
       if ((overId as ColumnId) === "done") triggerConfetti();
       return;
     }
@@ -63,7 +105,11 @@ export default function KanbanBoard() {
     const overCard = cards.find((c) => c.id === overId);
     if (!activeCard || !overCard) return;
     if (activeCard.status !== overCard.status) {
-      setCards((prev) => prev.map((c) => (c.id === activeId ? { ...c, status: overCard.status } : c)));
+      setCards((prev) =>
+        prev.map((c) =>
+          c.id === activeId ? { ...c, status: overCard.status } : c,
+        ),
+      );
       if (overCard.status === "done") triggerConfetti();
       return;
     }
@@ -84,14 +130,27 @@ export default function KanbanBoard() {
     <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {columns.map((col) => (
-          <Column key={col.id} id={col.id} title={col.title} items={byColumn[col.id]} />
+          <Column
+            key={col.id}
+            id={col.id}
+            title={col.title}
+            items={byColumn[col.id]}
+          />
         ))}
       </div>
     </DndContext>
   );
 }
 
-function Column({ id, title, items }: { id: ColumnId; title: string; items: Card[] }) {
+function Column({
+  id,
+  title,
+  items,
+}: {
+  id: ColumnId;
+  title: string;
+  items: Card[];
+}) {
   const presence = [
     "https://i.pravatar.cc/96?img=21",
     "https://i.pravatar.cc/96?img=7",
@@ -101,10 +160,15 @@ function Column({ id, title, items }: { id: ColumnId; title: string; items: Card
   return (
     <div className="rounded-2xl p-3 bg-white/60 dark:bg-white/5 backdrop-blur border border-white/30 dark:border-white/10 shadow-sm">
       <div className="flex items-center justify-between px-1 pb-2">
-        <h3 className="font-semibold text-sm tracking-wide text-foreground/90">{title}</h3>
+        <h3 className="font-semibold text-sm tracking-wide text-foreground/90">
+          {title}
+        </h3>
         <div className="flex -space-x-2">
           {presence.map((src, i) => (
-            <Avatar key={i} className="h-6 w-6 ring-2 ring-white/60 dark:ring-white/20">
+            <Avatar
+              key={i}
+              className="h-6 w-6 ring-2 ring-white/60 dark:ring-white/20"
+            >
               <AvatarImage src={src} />
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
@@ -112,7 +176,10 @@ function Column({ id, title, items }: { id: ColumnId; title: string; items: Card
         </div>
       </div>
 
-      <SortableContext items={items.map((c) => c.id)} strategy={verticalListSortingStrategy}>
+      <SortableContext
+        items={items.map((c) => c.id)}
+        strategy={verticalListSortingStrategy}
+      >
         <div className="space-y-3">
           {items.map((card) => (
             <KanbanCard key={card.id} card={card} columnId={id} />
@@ -124,7 +191,14 @@ function Column({ id, title, items }: { id: ColumnId; title: string; items: Card
 }
 
 function KanbanCard({ card }: { card: Card; columnId: ColumnId }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: card.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: card.id });
   const [tilt, setTilt] = useState({ rx: 0, ry: 0, tz: 0 });
 
   const baseTransform = CSS.Transform.toString(transform);
@@ -137,7 +211,11 @@ function KanbanCard({ card }: { card: Card; columnId: ColumnId }) {
     const el = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = (e.clientX - el.left) / el.width - 0.5;
     const y = (e.clientY - el.top) / el.height - 0.5;
-    setTilt({ rx: Math.max(-6, Math.min(6, -y * 8)), ry: Math.max(-8, Math.min(8, x * 10)), tz: 6 });
+    setTilt({
+      rx: Math.max(-6, Math.min(6, -y * 8)),
+      ry: Math.max(-8, Math.min(8, x * 10)),
+      tz: 6,
+    });
   }
   function handleLeave() {
     setTilt({ rx: 0, ry: 0, tz: 0 });
@@ -159,9 +237,13 @@ function KanbanCard({ card }: { card: Card; columnId: ColumnId }) {
       )}
     >
       <div className="flex items-start justify-between gap-2">
-        <div className="text-sm font-medium text-foreground/90">{card.title}</div>
+        <div className="text-sm font-medium text-foreground/90">
+          {card.title}
+        </div>
         {card.tag && (
-          <Badge className="bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20">{card.tag}</Badge>
+          <Badge className="bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20">
+            {card.tag}
+          </Badge>
         )}
       </div>
       <div className="mt-3 flex items-center justify-between">
@@ -170,11 +252,14 @@ function KanbanCard({ card }: { card: Card; columnId: ColumnId }) {
             <AvatarImage src={card.assignee?.avatar} />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
-          <span className="text-xs text-muted-foreground">{card.assignee?.name}</span>
+          <span className="text-xs text-muted-foreground">
+            {card.assignee?.name}
+          </span>
         </div>
         {card.dueDate && (
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Calendar className="h-3.5 w-3.5" /> {new Date(card.dueDate).toLocaleDateString()}
+            <Calendar className="h-3.5 w-3.5" />{" "}
+            {new Date(card.dueDate).toLocaleDateString()}
           </div>
         )}
       </div>

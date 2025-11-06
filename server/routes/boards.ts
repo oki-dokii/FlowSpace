@@ -1,5 +1,10 @@
 import express from "express";
-import { createBoard, listBoards, getBoard, inviteMember } from "../controllers/boardsController";
+import {
+  createBoard,
+  listBoards,
+  getBoard,
+  inviteMember,
+} from "../controllers/boardsController";
 import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = express.Router();

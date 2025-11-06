@@ -9,7 +9,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Moon, SunMedium, LogOut, Settings, User2, Users, LayoutGrid } from "lucide-react";
+import {
+  Moon,
+  SunMedium,
+  LogOut,
+  Settings,
+  User2,
+  Users,
+  LayoutGrid,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
@@ -81,7 +89,10 @@ export function FlowHeader() {
               <DropdownMenuTrigger asChild>
                 <button className="rounded-full p-0.5 bg-white/60 dark:bg-white/10 border border-white/30 dark:border-white/10 hover:bg-white/80 transition shadow">
                   <Avatar className="h-9 w-9">
-                    <AvatarImage src="https://i.pravatar.cc/100?img=12" alt="Soham" />
+                    <AvatarImage
+                      src="https://i.pravatar.cc/100?img=12"
+                      alt="Soham"
+                    />
                     <AvatarFallback>SO</AvatarFallback>
                   </Avatar>
                 </button>

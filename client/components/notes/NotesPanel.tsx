@@ -5,13 +5,30 @@ import { cn } from "@/lib/utils";
 import { CheckCircle2, Loader2, Save, Type } from "lucide-react";
 
 const users = [
-  { id: "1", name: "Lia", color: "#8b5cf6", avatar: "https://i.pravatar.cc/96?img=32" },
-  { id: "2", name: "Ray", color: "#6366f1", avatar: "https://i.pravatar.cc/96?img=14" },
-  { id: "3", name: "Ana", color: "#06b6d4", avatar: "https://i.pravatar.cc/96?img=24" },
+  {
+    id: "1",
+    name: "Lia",
+    color: "#8b5cf6",
+    avatar: "https://i.pravatar.cc/96?img=32",
+  },
+  {
+    id: "2",
+    name: "Ray",
+    color: "#6366f1",
+    avatar: "https://i.pravatar.cc/96?img=14",
+  },
+  {
+    id: "3",
+    name: "Ana",
+    color: "#06b6d4",
+    avatar: "https://i.pravatar.cc/96?img=24",
+  },
 ];
 
 export function NotesPanel() {
-  const [value, setValue] = useState<string>(`# Project Notes\n\n- Use dnd-kit for drag & drop\n- Keep UI glassy and minimal\n- Add confetti when tasks are Done 🎉`);
+  const [value, setValue] = useState<string>(
+    `# Project Notes\n\n- Use dnd-kit for drag & drop\n- Keep UI glassy and minimal\n- Add confetti when tasks are Done 🎉`,
+  );
   const [syncing, setSyncing] = useState(false);
   const [editing, setEditing] = useState(false);
   const timeoutRef = useRef<number | null>(null);
@@ -38,12 +55,17 @@ export function NotesPanel() {
         <div className="flex items-center gap-2">
           <Type className="h-4 w-4 text-indigo-500" />
           <span className="text-sm font-medium">Shared Notes</span>
-          {editing && <span className="text-xs text-muted-foreground">editing…</span>}
+          {editing && (
+            <span className="text-xs text-muted-foreground">editing…</span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <div className="flex -space-x-2">
             {users.map((u) => (
-              <Avatar key={u.id} className="h-6 w-6 ring-2 ring-white/60 dark:ring-white/10">
+              <Avatar
+                key={u.id}
+                className="h-6 w-6 ring-2 ring-white/60 dark:ring-white/10"
+              >
                 <AvatarImage src={u.avatar} />
                 <AvatarFallback>{u.name[0]}</AvatarFallback>
               </Avatar>
@@ -76,7 +98,10 @@ export function NotesPanel() {
           }}
           className="resize-none p-4 bg-transparent outline-none text-sm font-mono border-r border-white/30 dark:border-white/10"
         />
-        <div className="p-4 overflow-auto prose prose-sm md:prose-base dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: preview }} />
+        <div
+          className="p-4 overflow-auto prose prose-sm md:prose-base dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{ __html: preview }}
+        />
       </div>
 
       <div className="pointer-events-none absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/90 text-white text-xs px-3 py-1 shadow-lg animate-[pulse_2s_ease-in-out_infinite]">
@@ -88,14 +113,14 @@ export function NotesPanel() {
 
 function markdownToHtml(src: string) {
   let s = src;
-  s = s.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-  s = s.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-  s = s.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-  s = s.replace(/^\s*\- (.*$)/gim, '<li>$1</li>');
-  s = s.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>');
-  s = s.replace(/\*(.*?)\*/gim, '<em>$1</em>');
-  s = s.replace(/\n\n/g, '<br/>');
+  s = s.replace(/^### (.*$)/gim, "<h3>$1</h3>");
+  s = s.replace(/^## (.*$)/gim, "<h2>$1</h2>");
+  s = s.replace(/^# (.*$)/gim, "<h1>$1</h1>");
+  s = s.replace(/^\s*\- (.*$)/gim, "<li>$1</li>");
+  s = s.replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>");
+  s = s.replace(/\*(.*?)\*/gim, "<em>$1</em>");
+  s = s.replace(/\n\n/g, "<br/>");
   // Wrap standalone <li> with <ul>
-  s = s.replace(/(<li>.*?<\/li>)/gs, '<ul>$1</ul>');
+  s = s.replace(/(<li>.*?<\/li>)/gs, "<ul>$1</ul>");
   return s.trim();
 }

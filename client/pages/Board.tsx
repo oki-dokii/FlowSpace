@@ -19,7 +19,11 @@ export default function Board() {
   }
 
   return (
-    <div ref={ref} onMouseMove={onMove} className="relative container mx-auto px-6 py-8 overflow-hidden">
+    <div
+      ref={ref}
+      onMouseMove={onMove}
+      className="relative container mx-auto px-6 py-8 overflow-hidden"
+    >
       <FloatingBackground />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-6">
@@ -33,9 +37,7 @@ export default function Board() {
         </div>
       </div>
 
-      <Button
-        className="fixed bottom-6 right-6 rounded-full h-12 px-5 shadow-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-500/90 hover:to-violet-600/90"
-      >
+      <Button className="fixed bottom-6 right-6 rounded-full h-12 px-5 shadow-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-500/90 hover:to-violet-600/90">
         <Plus className="mr-2 h-5 w-5" /> Create Board
       </Button>
 

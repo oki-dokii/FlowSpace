@@ -17,13 +17,15 @@ export default function IndexPreview() {
             { title: "Review", color: "from-pink-200 to-pink-300" },
           ].map((col, i) => (
             <div key={col.title} className="flex-1 min-w-0">
-              <div className="text-xs font-medium mb-3 text-foreground/80">{col.title}</div>
+              <div className="text-xs font-medium mb-3 text-foreground/80">
+                {col.title}
+              </div>
               <div className="space-y-3">
                 {[0, 1].map((n) => (
                   <motion.div
                     key={n}
                     whileHover={{ scale: 1.02 }}
-                    className={`rounded-xl p-3 bg-gradient-to-br ${col.color} bg-opacity-10 border border-white/8`} 
+                    className={`rounded-xl p-3 bg-gradient-to-br ${col.color} bg-opacity-10 border border-white/8`}
                   >
                     <div className="h-3 w-32 rounded bg-white/20 mb-2" />
                     <div className="h-3 w-20 rounded bg-white/10" />

@@ -16,7 +16,9 @@ export default function Profile() {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-semibold">Soham</h1>
-                <p className="text-sm text-muted-foreground mt-1">Product Designer • San Francisco</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Product Designer • San Francisco
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Link to="/settings">
@@ -24,11 +26,16 @@ export default function Profile() {
                     <SettingsIcon className="mr-2 h-4 w-4" /> Settings
                   </Button>
                 </Link>
-                <Button className="rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 text-white">Edit Profile</Button>
+                <Button className="rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 text-white">
+                  Edit Profile
+                </Button>
               </div>
             </div>
 
-            <p className="mt-4 text-sm">I design delightful interfaces and ship collaborative products. Lover of simple UX and delightful micro-interactions.</p>
+            <p className="mt-4 text-sm">
+              I design delightful interfaces and ship collaborative products.
+              Lover of simple UX and delightful micro-interactions.
+            </p>
 
             <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
@@ -43,10 +50,18 @@ export default function Profile() {
               <h3 className="text-sm font-medium">Teams</h3>
               <div className="mt-2 flex items-center gap-2">
                 <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-white/7 border border-white/20">
-                  <img src="https://i.pravatar.cc/32?img=3" className="h-6 w-6 rounded-full" /> Product
+                  <img
+                    src="https://i.pravatar.cc/32?img=3"
+                    className="h-6 w-6 rounded-full"
+                  />{" "}
+                  Product
                 </div>
                 <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/80 dark:bg-white/7 border border-white/20">
-                  <img src="https://i.pravatar.cc/32?img=21" className="h-6 w-6 rounded-full" /> Design
+                  <img
+                    src="https://i.pravatar.cc/32?img=21"
+                    className="h-6 w-6 rounded-full"
+                  />{" "}
+                  Design
                 </div>
               </div>
             </div>

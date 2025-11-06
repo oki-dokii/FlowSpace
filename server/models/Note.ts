@@ -10,11 +10,17 @@ export interface INote extends Document {
 
 const NoteSchema = new Schema<INote>(
   {
-    boardId: { type: Schema.Types.ObjectId, ref: "Board", required: true, unique: true },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: "Board",
+      required: true,
+      unique: true,
+    },
     content: { type: String, default: "" },
     updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Note = mongoose.models.Note || mongoose.model<INote>("Note", NoteSchema);
+export const Note =
+  mongoose.models.Note || mongoose.model<INote>("Note", NoteSchema);

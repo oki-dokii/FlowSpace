@@ -18,10 +18,29 @@ export default function FloatingBackground() {
   }, []);
 
   return (
-    <div ref={ref} className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
-      <div className="absolute -left-40 -top-28 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-indigo-600/30 to-violet-500/20 blur-3xl transform-gpu" style={{ transform: "translate3d(calc(var(--mx,0)*20px), calc(var(--my,0)*20px), 0)" }} />
-      <div className="absolute right-20 top-10 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-teal-400/20 to-indigo-600/10 blur-2xl transform-gpu" style={{ transform: "translate3d(calc(var(--mx,0)*-18px), calc(var(--my,0)*12px), 0)" }} />
-      <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+    <div
+      ref={ref}
+      className="pointer-events-none absolute inset-0 -z-10"
+      aria-hidden
+    >
+      <div
+        className="absolute -left-40 -top-28 w-[520px] h-[520px] rounded-full bg-gradient-to-tr from-indigo-600/30 to-violet-500/20 blur-3xl transform-gpu"
+        style={{
+          transform:
+            "translate3d(calc(var(--mx,0)*20px), calc(var(--my,0)*20px), 0)",
+        }}
+      />
+      <div
+        className="absolute right-20 top-10 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-teal-400/20 to-indigo-600/10 blur-2xl transform-gpu"
+        style={{
+          transform:
+            "translate3d(calc(var(--mx,0)*-18px), calc(var(--my,0)*12px), 0)",
+        }}
+      />
+      <svg
+        className="absolute inset-0 w-full h-full"
+        preserveAspectRatio="none"
+      >
         <defs>
           <filter id="f1" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="50" result="b" />
@@ -29,8 +48,20 @@ export default function FloatingBackground() {
           </filter>
         </defs>
         <g filter="url(#f1)">
-          <circle cx="10%" cy="85%" r="150" fill="rgba(99,102,241,0.04)" transform="translate(calc(var(--mx,0)*30), calc(var(--my,0)*-30))" />
-          <circle cx="85%" cy="15%" r="120" fill="rgba(124,58,237,0.03)" transform="translate(calc(var(--mx,0)*-20), calc(var(--my,0)*20))" />
+          <circle
+            cx="10%"
+            cy="85%"
+            r="150"
+            fill="rgba(99,102,241,0.04)"
+            transform="translate(calc(var(--mx,0)*30), calc(var(--my,0)*-30))"
+          />
+          <circle
+            cx="85%"
+            cy="15%"
+            r="120"
+            fill="rgba(124,58,237,0.03)"
+            transform="translate(calc(var(--mx,0)*-20), calc(var(--my,0)*20))"
+          />
         </g>
       </svg>
     </div>

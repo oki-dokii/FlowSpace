@@ -4,7 +4,9 @@ import { Card } from "./models/Card";
 import { Note } from "./models/Note";
 
 export function initSocket(server: http.Server) {
-  const io = new IOServer(server, { cors: { origin: process.env.CORS_ORIGIN || "*", credentials: true } });
+  const io = new IOServer(server, {
+    cors: { origin: process.env.CORS_ORIGIN || "*", credentials: true },
+  });
 
   io.on("connection", (socket) => {
     console.log("socket connected", socket.id);
@@ -18,7 +20,9 @@ export function initSocket(server: http.Server) {
     socket.on("leaveBoard", (boardId: string) => {
       const room = `board:${boardId}`;
       socket.leave(room);
-      socket.to(room).emit("presence:update", { id: socket.id, event: "leave" });
+      socket
+        .to(room)
+        .emit("presence:update", { id: socket.id, event: "leave" });
     });
 
     socket.on("card:create", async (data) => {
@@ -59,7 +63,11 @@ export function initSocket(server: http.Server) {
     socket.on("note:update", async (data) => {
       try {
         const { boardId, content, updatedBy } = data;
-        const note = await Note.findOneAndUpdate({ boardId }, { content, updatedBy, updatedAt: new Date() }, { upsert: true, new: true });
+        const note = await Note.findOneAndUpdate(
+          { boardId },
+          { content, updatedBy, updatedAt: new Date() },
+          { upsert: true, new: true },
+        );
         const room = `board:${boardId}`;
         socket.to(room).emit("note:update", note);
         socket.emit("note:update:ok", note);

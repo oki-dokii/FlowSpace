@@ -31,7 +31,11 @@ const HistorySchema = new Schema<IHistoryEntry>({
 const CardSchema = new Schema<ICard>(
   {
     boardId: { type: Schema.Types.ObjectId, ref: "Board", required: true },
-    columnId: { type: Schema.Types.ObjectId, ref: "Board.columns", required: true },
+    columnId: {
+      type: Schema.Types.ObjectId,
+      ref: "Board.columns",
+      required: true,
+    },
     title: { type: String, required: true },
     description: { type: String },
     assigneeId: { type: Schema.Types.ObjectId, ref: "User" },
@@ -40,7 +44,8 @@ const CardSchema = new Schema<ICard>(
     order: { type: Number, default: 0 },
     history: { type: [HistorySchema], default: [] },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Card = mongoose.models.Card || mongoose.model<ICard>("Card", CardSchema);
+export const Card =
+  mongoose.models.Card || mongoose.model<ICard>("Card", CardSchema);

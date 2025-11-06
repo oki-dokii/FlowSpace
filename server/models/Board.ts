@@ -30,7 +30,11 @@ const ColumnSchema = new Schema<IColumn>({
 
 const MemberSchema = new Schema<IMember>({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  role: { type: String, enum: ["owner", "editor", "viewer"], default: "viewer" },
+  role: {
+    type: String,
+    enum: ["owner", "editor", "viewer"],
+    default: "viewer",
+  },
 });
 
 const BoardSchema = new Schema<IBoard>(
@@ -41,7 +45,8 @@ const BoardSchema = new Schema<IBoard>(
     members: { type: [MemberSchema], default: [] },
     columns: { type: [ColumnSchema], default: [] },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Board = mongoose.models.Board || mongoose.model<IBoard>("Board", BoardSchema);
+export const Board =
+  mongoose.models.Board || mongoose.model<IBoard>("Board", BoardSchema);
