@@ -40,8 +40,8 @@ const App = () => (
                 <Route path="/activity" element={<Activity />} />
                 <Route path="/dashboard" element={<Placeholder />} />
                 <Route path="/invite" element={<Invite />} />
-                <Route path="/profile" element={<Placeholder />} />
-                <Route path="/settings" element={<Placeholder />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/settings" element={<Settings />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
