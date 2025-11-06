@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Loader2, Plus } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useBoard } from "@/contexts/BoardContext";
-import { useAuth } from "@/contexts/AuthContext";
 import { getSocket } from "@/lib/socket";
 import { Card as CardType, listCards, createCard, updateCard } from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -22,7 +21,6 @@ export type ColumnId = string;
 
 export default function KanbanBoard() {
   const { currentBoard } = useBoard();
-  const { user } = useAuth();
   const [cards, setCards] = useState<CardType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
@@ -129,7 +127,6 @@ export default function KanbanBoard() {
       socket.emit("card:update", {
         id: activeId,
         updates: { columnId: newColumnId },
-        updatedBy: user?.id,
       });
 
       return;
@@ -155,7 +152,6 @@ export default function KanbanBoard() {
       socket.emit("card:update", {
         id: activeId,
         updates: { columnId: overCard.columnId },
-        updatedBy: user?.id,
       });
     } else {
       // Reordering in same column
@@ -170,7 +166,7 @@ export default function KanbanBoard() {
   };
 
   const handleCreateCard = async (columnId: string) => {
-    if (!currentBoard || !user) return;
+    if (!currentBoard) return;
     
     const newCardData = {
       boardId: currentBoard._id,
@@ -178,7 +174,6 @@ export default function KanbanBoard() {
       title: "New Task",
       description: "",
       tags: [],
-      createdBy: user.id,
     };
 
     try {
@@ -283,7 +278,6 @@ function Column({
         variant="ghost"
         size="sm"
         className="w-full mt-3 text-muted-foreground hover:text-foreground hover:bg-white/50 dark:hover:bg-white/10"
-        data-testid="add-card-button"
       >
         <Plus className="h-4 w-4 mr-2" />
         Add Card
