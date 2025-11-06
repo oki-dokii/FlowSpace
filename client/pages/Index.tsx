@@ -18,7 +18,7 @@ export default function Index() {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-extrabold leading-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500">
+              <span className="gradient-text neon-glow">
                 FlowSpace
               </span>
               <br />
