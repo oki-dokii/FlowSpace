@@ -39,10 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const autoLogin = async () => {
     try {
-      // Try to register/login as demo user
-      const demoEmail = `demo_${Date.now()}@flowspace.app`;
-      const demoPassword = 'demo123456';
-      await register('Demo User', demoEmail, demoPassword);
+      // Try to login as existing demo user
+      await login('demo@flowspace.app', 'demo123');
     } catch (err) {
       console.error('Auto-login failed:', err);
       setIsLoading(false);
