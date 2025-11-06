@@ -19,38 +19,44 @@ import Settings from "./pages/Settings";
 import { FlowHeader } from "./components/FlowHeader";
 import { FlowFooter } from "./components/FlowFooter";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
+import { AuthProvider } from "./contexts/AuthContext";
+import { BoardProvider } from "./contexts/BoardContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-background to-background">
-            <FlowHeader />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/board" element={<Board />} />
-                <Route path="/boards" element={<Boards />} />
-                <Route path="/teams" element={<Teams />} />
-                <Route path="/activity" element={<Activity />} />
-                <Route path="/dashboard" element={<Placeholder />} />
-                <Route path="/invite" element={<Invite />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/settings" element={<Settings />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <FlowFooter />
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <AuthProvider>
+      <BoardProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <div className="min-h-screen flex flex-col bg-gradient-to-b from-background via-background to-background">
+                <FlowHeader />
+                <main className="flex-1">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/board" element={<Board />} />
+                    <Route path="/boards" element={<Boards />} />
+                    <Route path="/teams" element={<Teams />} />
+                    <Route path="/activity" element={<Activity />} />
+                    <Route path="/dashboard" element={<Placeholder />} />
+                    <Route path="/invite" element={<Invite />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/settings" element={<Settings />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+                <FlowFooter />
+              </div>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </BoardProvider>
+    </AuthProvider>
   </ThemeProvider>
 );
 
