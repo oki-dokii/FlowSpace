@@ -10,6 +10,10 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Placeholder from "./pages/Placeholder";
 import Board from "./pages/Board";
+import Boards from "./pages/Boards";
+import Teams from "./pages/Teams";
+import Activity from "./pages/Activity";
+import Invite from "./pages/Invite";
 import { FlowHeader } from "./components/FlowHeader";
 import { FlowFooter } from "./components/FlowFooter";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
@@ -29,11 +33,11 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/board" element={<Board />} />
-                <Route path="/boards" element={<Placeholder />} />
-                <Route path="/teams" element={<Placeholder />} />
-                <Route path="/activity" element={<Placeholder />} />
+                <Route path="/boards" element={<Boards />} />
+                <Route path="/teams" element={<Teams />} />
+                <Route path="/activity" element={<Activity />} />
                 <Route path="/dashboard" element={<Placeholder />} />
-                <Route path="/invite" element={<Placeholder />} />
+                <Route path="/invite" element={<Invite />} />
                 <Route path="/profile" element={<Placeholder />} />
                 <Route path="/settings" element={<Placeholder />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
