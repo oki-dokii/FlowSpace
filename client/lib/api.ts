@@ -82,12 +82,11 @@ export async function getBoard(boardId: string) {
 
 // Card APIs - fetch all cards for a board
 export async function listCards(boardId: string) {
-  // We'll need to create this endpoint or use the board endpoint
-  const boardData = await getBoard(boardId);
-  // For now, we'll fetch cards via a custom implementation
-  // The backend doesn't have a listCards endpoint, so we'll work with what we have
-  return { cards: [] }; // Will be populated via socket
-}
+  const response = await fetch(`${API_URL}/api/cards/${boardId}/cards`, {
+    method: 'GET',
+    headers: getHeaders(),
+    credentials: 'include',
+  });\n  if (!response.ok) throw new Error('Failed to fetch cards');\n  return response.json();\n}
 
 export async function createCard(boardId: string, data: Partial<Card>) {
   const response = await fetch(`${API_URL}/api/cards/${boardId}/cards`, {
