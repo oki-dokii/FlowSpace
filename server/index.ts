@@ -14,7 +14,8 @@ import { handleDemo } from "./routes/demo";
 import { errorHandler } from "./middleware/errorHandler";
 import { initSocket } from "./socket";
 
-export async function createServer() {
+export async function createServer(opts: { connectDB?: boolean } = {}) {
+  const { connectDB = true } = opts;
   const app = express();
 
   // Middleware
@@ -23,10 +24,20 @@ export async function createServer() {
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
 
-  // MongoDB
-  const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/flowspace";
-  await mongoose.connect(mongoUri);
-  console.log("Connected to MongoDB");
+  // MongoDB (optional)
+  if (connectDB) {
+    try {
+      const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/flowspace";
+      await mongoose.connect(mongoUri);
+      console.log("Connected to MongoDB");
+    } catch (err) {
+      console.error("Failed to connect to MongoDB:", err);
+      // Rethrow so that when running in production the error surfaces; during dev plugin we may pass connectDB:false
+      throw err;
+    }
+  } else {
+    console.warn("Skipping MongoDB connection (connectDB=false)");
+  }
 
   // API routes
   app.get("/api/ping", (_req, res) => {
