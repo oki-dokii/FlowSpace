@@ -1,6 +1,5 @@
-import { KanbanBoard } from "@/components/kanban/KanbanBoard";
+import KanbanBoard from "@/components/kanban/KanbanBoard";
 import { useRef } from "react";
-import { KanbanBoard } from "@/components/kanban/KanbanBoard";
 import { NotesPanel } from "@/components/notes/NotesPanel";
 import { Button } from "@/components/ui/button";
 import { Plus, Users } from "lucide-react";
