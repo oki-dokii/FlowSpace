@@ -133,26 +133,37 @@ export function NotesPanel() {
               ))}
             </div>
           )}
-          <Button
-            size="sm"
-            variant="secondary"
-            className={cn(
-              "rounded-full bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10",
-              syncing ? "animate-pulse" : ""
-            )}
-          >
-            {syncing ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Syncing
-              </>
-            ) : (
-              <>
-                <Save className="mr-2 h-4 w-4" />
-                Synced
-              </>
-            )}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => navigate(`/notes-editor?boardId=${currentBoard._id}`)}
+              className="rounded-full"
+            >
+              <Maximize2 className="mr-2 h-4 w-4" />
+              Full Editor
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className={cn(
+                "rounded-full bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10",
+                syncing ? "animate-pulse" : ""
+              )}
+            >
+              {syncing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Syncing
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Synced
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 
