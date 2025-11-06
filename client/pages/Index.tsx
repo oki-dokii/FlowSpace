@@ -38,7 +38,7 @@ export default function Index() {
             <div className="flex flex-wrap gap-4 pt-4">
               <Link
                 to="/board"
-                className="group inline-flex items-center gap-2 rounded-full px-8 py-4 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                className="group inline-flex items-center gap-2 rounded-full px-8 py-4 bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-lg hover:shadow-xl transition-all hover-scale-3d"
               >
                 Get Started
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
