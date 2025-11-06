@@ -68,19 +68,21 @@ export default function Teams() {
 
     try {
       setAdding(true);
-      // In a real app, you'd look up user by email and add them
-      // For now, show success message
+      // Send actual email invite
+      const { sendInvite } = await import('@/lib/api-teams');
+      await sendInvite({ email: memberEmail, boardId: selectedTeam._id });
+      
       toast({
         title: 'Invite sent!',
-        description: `Invitation sent to ${memberEmail}`,
+        description: `Invitation email sent to ${memberEmail}`,
       });
       setShowAddMemberDialog(false);
       setMemberEmail('');
       setSelectedTeam(null);
     } catch (err) {
       toast({
-        title: 'Failed to add member',
-        description: 'Please try again.',
+        title: 'Failed to send invite',
+        description: 'Please check SMTP configuration.',
         variant: 'destructive',
       });
     } finally {
