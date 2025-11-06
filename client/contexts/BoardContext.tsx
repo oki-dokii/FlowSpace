@@ -16,6 +16,7 @@ interface BoardContextType {
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
 
 export function BoardProvider({ children }: { children: ReactNode }) {
+  const { isLoading: authLoading } = useAuth();
   const [currentBoard, setCurrentBoard] = useState<Board | null>(null);
   const [boards, setBoards] = useState<Board[]>([]);
   const [isLoading, setIsLoading] = useState(true);
