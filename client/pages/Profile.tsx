@@ -36,30 +36,42 @@ export default function Profile() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'File too large',
+        description: 'Please select an image under 5MB.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
       setUploading(true);
-      // In a real app, upload to S3/Cloudinary
-      // For demo, use a random avatar
-      const randomNum = Math.floor(Math.random() * 70);
-      const newAvatar = `https://i.pravatar.cc/120?img=${randomNum}`;
-      setAvatarUrl(newAvatar);
       
-      // Update user profile
-      const response = await fetch('/api/user/profile', {
-        method: 'PUT',
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('avatar', file);
+      
+      // Upload to server
+      const response = await fetch('/api/user/avatar', {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
         },
         credentials: 'include',
-        body: JSON.stringify({ avatar: newAvatar }),
+        body: formData,
       });
 
       if (response.ok) {
+        const data = await response.json();
+        setAvatarUrl(data.avatarUrl);
         toast({
           title: 'Profile picture updated!',
           description: 'Your avatar has been changed.',
         });
+      } else {
+        throw new Error('Upload failed');
       }
     } catch (err) {
       toast({
