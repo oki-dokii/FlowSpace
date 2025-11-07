@@ -87,15 +87,18 @@ class FlowSpaceBackendTester:
             print(f"  Generated JWT token")
             
             # Create test board with columns
+            from bson import ObjectId
+            owner_id = test_user['_id'] if test_user else ObjectId(self.user_id)
+            
             board_data = {
                 'title': 'Test Board for Card Operations',
                 'description': 'Testing card CRUD and activity logging',
-                'ownerId': test_user['_id'] if test_user else result.inserted_id,
+                'ownerId': owner_id,
                 'members': [],
                 'columns': [
-                    {'title': 'To Do', 'order': 0},
-                    {'title': 'In Progress', 'order': 1},
-                    {'title': 'Done', 'order': 2}
+                    {'_id': ObjectId(), 'title': 'To Do', 'order': 0},
+                    {'_id': ObjectId(), 'title': 'In Progress', 'order': 1},
+                    {'_id': ObjectId(), 'title': 'Done', 'order': 2}
                 ],
                 'createdAt': datetime.utcnow(),
                 'updatedAt': datetime.utcnow()
@@ -104,8 +107,7 @@ class FlowSpaceBackendTester:
             self.board_id = str(board_result.inserted_id)
             
             # Get column ID
-            board = db.boards.find_one({'_id': board_result.inserted_id})
-            self.column_id = str(board['columns'][0]['_id'])
+            self.column_id = str(board_data['columns'][0]['_id'])
             
             print(f"  Created test board: {self.board_id}")
             print(f"  Column ID: {self.column_id}")
