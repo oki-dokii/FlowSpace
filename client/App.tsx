@@ -65,6 +65,7 @@ const App = () => (
       </BoardProvider>
     </AuthProvider>
   </ThemeProvider>
+  </ErrorBoundary>
 );
 
 const container = document.getElementById("root")!;
