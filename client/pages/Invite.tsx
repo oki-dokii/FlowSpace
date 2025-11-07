@@ -119,6 +119,24 @@ export default function Invite() {
           <div className="relative rounded-xl p-[1.5px] bg-gradient-to-r from-indigo-500 to-violet-600">
             <div className="rounded-lg bg-white/90 dark:bg-white/5 p-6 space-y-4">
               <div>
+                <Label htmlFor="board" className="text-base font-medium">
+                  Select Board
+                </Label>
+                <Select value={selectedBoardId} onValueChange={setSelectedBoardId}>
+                  <SelectTrigger className="mt-3 h-12">
+                    <SelectValue placeholder="Choose a board" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {boards && boards.map((board: any) => (
+                      <SelectItem key={board._id} value={board._id}>
+                        {board.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
                 <Label htmlFor="email" className="text-base font-medium">
                   Email address
                 </Label>
