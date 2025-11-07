@@ -16,8 +16,8 @@ export const listCards: RequestHandler = async (req, res, next) => {
 
 export const createCard: RequestHandler = async (req, res, next) => {
   try {
-    const { boardId, columnId, title, description, assigneeId, dueDate, tags } =
-      req.body;
+    const { boardId } = req.params; // Get boardId from URL params
+    const { columnId, title, description, assigneeId, dueDate, tags } = req.body;
     const card = await Card.create({
       boardId,
       columnId,
