@@ -88,10 +88,15 @@ export const updateCard: RequestHandler = async (req, res, next) => {
     const updateData = { ...req.body, updatedBy: userId };
     const card = await Card.findByIdAndUpdate(id, updateData, { new: true });
 
+    // Populate user data before broadcasting
+    const populatedCard = await Card.findById(id)
+      .populate('createdBy', 'name email avatarUrl')
+      .populate('updatedBy', 'name email avatarUrl');
+
     // Broadcast card update to all clients
     const io = (req as any).app.get('io');
-    if (io && card) {
-      io.emit('card:update', card);
+    if (io && populatedCard) {
+      io.emit('card:update', populatedCard);
     }
 
     // Log activity
