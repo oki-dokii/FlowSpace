@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "start": "cd /app && HOST=0.0.0.0 PORT=3000 pnpm dev"
+    "start": "bash /app/frontend/start.sh"
   },
   "dependencies": {},
   "devDependencies": {}
