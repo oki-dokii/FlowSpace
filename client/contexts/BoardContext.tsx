@@ -39,7 +39,16 @@ export function BoardProvider({ children }: { children: ReactNode }) {
         const firstBoard = data.boards[0];
         const boardData = await getBoard(firstBoard._id);
         setCurrentBoard(boardData.board);
-        setCards(boardData.board.cards || []);
+        
+        // Load cards for the board
+        try {
+          const { listCards } = await import('@/lib/api');
+          const cardsData = await listCards(firstBoard._id);
+          setCards(cardsData.cards || []);
+        } catch (cardsErr) {
+          console.error('Failed to load cards:', cardsErr);
+          setCards([]);
+        }
         
         // Join socket room for this board
         const socket = getSocket();
