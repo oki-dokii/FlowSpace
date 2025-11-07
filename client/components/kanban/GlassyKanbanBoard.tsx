@@ -348,24 +348,32 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
     transition,
   };
 
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onEdit();
+  };
+
   return (
     <motion.div
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
       whileHover={{ scale: 1.03, y: -4 }}
       className={cn(
-        'group relative rounded-xl p-4 cursor-grab',
+        'group relative rounded-xl p-4',
         'bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md',
         'border border-white/10 shadow-lg',
         'hover:shadow-2xl hover:border-white/20',
         'transition-all duration-300',
-        isDragging && 'opacity-50 cursor-grabbing scale-105 rotate-2'
+        isDragging && 'opacity-50 scale-105 rotate-2'
       )}
     >
       {/* Hover glow effect */}
       <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500/0 to-violet-500/0 group-hover:from-indigo-500/10 group-hover:to-violet-500/10 transition-all duration-300" />
+      
+      {/* Drag Handle */}
+      <div {...listeners} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
       
       <div className="relative z-10 space-y-3">
         <div className="flex items-start justify-between gap-2">
@@ -375,13 +383,10 @@ function GlassCard({ card, onEdit }: { card: CardType; onEdit: () => void }) {
           <Button
             variant="ghost"
             size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit();
-            }}
-            className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 hover:bg-white/10"
+            onClick={handleEditClick}
+            className="opacity-0 group-hover:opacity-100 transition-opacity h-7 w-7 p-0 hover:bg-indigo-500/20 relative z-20"
           >
-            <Edit className="h-3 w-3 text-white/60" />
+            <Edit className="h-3.5 w-3.5 text-indigo-300" />
           </Button>
         </div>
 
