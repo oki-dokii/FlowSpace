@@ -705,10 +705,10 @@ class FlowSpaceInviteTester:
 
 def main():
     print(f"{Colors.BOLD}{'='*60}{Colors.RESET}")
-    print(f"{Colors.BOLD}FlowSpace Backend Testing - Card Operations & Activity Logging{Colors.RESET}")
+    print(f"{Colors.BOLD}FlowSpace Backend Testing - Invite & Collaboration System{Colors.RESET}")
     print(f"{Colors.BOLD}{'='*60}{Colors.RESET}")
     
-    tester = FlowSpaceBackendTester()
+    tester = FlowSpaceInviteTester()
     
     # Setup
     if not tester.setup_test_data():
@@ -717,11 +717,12 @@ def main():
     
     try:
         # Run tests
-        tester.test_card_creation()
-        tester.test_card_retrieval()
-        tester.test_card_update()
-        tester.test_activity_logging()
-        tester.test_card_deletion()
+        tester.test_create_invite()
+        tester.test_accept_invite()
+        tester.test_list_invites()
+        tester.test_member_board_access()
+        tester.test_member_card_access()
+        tester.test_permissions()
         
         # Print summary
         all_passed = tester.print_summary()
