@@ -8,46 +8,56 @@
 
 ## Current Status
 **Date:** 2025-11-07
-**Status:** ✅ Backend Card Operations & Activity Logging - ALL TESTS PASSING
+**Status:** ✅ Backend Invite & Collaboration System - ALL TESTS PASSING
 
-## Backend Testing Results (2025-11-07 20:27 UTC)
+## Backend Testing Results (2025-11-07 Latest)
 
-### Test Summary: 10/10 Tests Passed ✅
+### Test Summary: 12/12 Tests Passed ✅
 
-#### 1. Card Creation (POST /api/cards/:boardId/cards)
-- ✅ Card created successfully with correct status code (201)
-- ✅ Card fields validated (title, description, columnId, boardId, tags)
-- ✅ Card persisted to database
+#### 1. Create Invite Link (POST /api/invite)
+- ✅ Invite created successfully with correct status code (200)
+- ✅ Invite token generated and returned
+- ✅ Invite link returned in response
+- ✅ Invite persisted to database with correct fields
+- ✅ Expiry date set correctly (7 days from creation)
+- ✅ Invite status set to 'pending'
 
-#### 2. Card Retrieval (GET /api/cards/:boardId/cards)
-- ✅ Cards retrieved successfully for board
-- ✅ Response structure correct with 'cards' array
-- ✅ Created card found in response
+#### 2. Accept Invite (POST /api/invite/:token/accept)
+- ✅ Invite accepted successfully with correct status code (200)
+- ✅ User added to board members with correct role
+- ✅ Invite status changed to 'accepted' in database
+- ✅ Board information returned in response
 
-#### 3. Card Update (PUT /api/cards/:id)
-- ✅ Card updated successfully with correct status code (200)
-- ✅ Updated fields persisted correctly
-- ✅ Card data matches update request
+#### 3. List Invites (GET /api/invite/board/:boardId)
+- ✅ Invites retrieved successfully for board owner
+- ✅ Response structure correct with 'invites' array
+- ✅ User data populated in invites (invitedBy field)
+- ✅ All invite details present (email, role, status, token)
 
-#### 4. Activity Logging
-- ✅ Card creation activity logged with correct fields (entityType='card', entityId=cardId)
-- ✅ Card update activity logged successfully
-- ✅ Card deletion activity logged successfully
-- ✅ User data populated in activities (name, email)
-- ✅ Activities retrieved via GET /api/activity
+#### 4. Board Member Access
+- ✅ Member can see boards they're a member of (GET /api/boards)
+- ✅ Member can access board details (GET /api/boards/:id)
+- ✅ Board membership correctly reflected in response
 
-#### 5. Card Deletion (DELETE /api/cards/:id)
-- ✅ Card deleted successfully with correct status code (200)
-- ✅ Card removed from database (verified)
-- ✅ Deletion activity logged
+#### 5. Member Card Access
+- ✅ Board members can view cards (GET /api/cards/:boardId/cards)
+- ✅ Cards created by owner visible to members
+- ✅ Card access permissions working correctly
+
+#### 6. Permission Testing
+- ✅ Viewers cannot send invites (403 Forbidden)
+- ✅ Only owners/editors can send invites
+- ✅ Non-members cannot see boards in their board list
+- ✅ Permission checks working correctly
 
 ### Technical Details
 - **Backend URL:** http://localhost:8001
 - **Authentication:** JWT tokens working correctly
-- **Database:** MongoDB activities collection verified
-- **Activity Fields:** entityType, entityId, userId, boardId, action all correct
-- **Socket.io:** Events emitted for card:create, card:update, card:delete
-- **User Population:** Activity userId properly populated with user details
+- **Database:** MongoDB invites collection verified
+- **Invite Fields:** boardId, invitedBy, email, token, role, status, expiresAt all correct
+- **Socket.io:** board:member-joined event emitted on invite acceptance
+- **User Population:** invitedBy field properly populated with user details
+- **Permissions:** Role-based access control working correctly
 
 ## Changes Made
 1. ✅ Fixed socket event naming mismatch (card:created → card:create)
