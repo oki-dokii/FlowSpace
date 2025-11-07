@@ -183,12 +183,17 @@ class FlowSpaceInviteTester:
         print(f"\n{Colors.BOLD}Cleaning up test data...{Colors.RESET}")
         try:
             from pymongo import MongoClient
+            from bson import ObjectId
             client = MongoClient('mongodb://localhost:27017/flowspace')
             db = client['flowspace']
             
+            # Delete test invites
+            if self.board_id:
+                db.invites.delete_many({'boardId': ObjectId(self.board_id)})
+                print(f"  Deleted test invites")
+            
             # Delete test cards
             if self.board_id:
-                from bson import ObjectId
                 db.cards.delete_many({'boardId': ObjectId(self.board_id)})
                 print(f"  Deleted test cards")
                 
@@ -196,11 +201,11 @@ class FlowSpaceInviteTester:
                 db.boards.delete_one({'_id': ObjectId(self.board_id)})
                 print(f"  Deleted test board")
             
-            # Delete test activities
-            if self.user_id:
-                from bson import ObjectId
-                db.activities.delete_many({'userId': ObjectId(self.user_id)})
-                print(f"  Deleted test activities")
+            # Delete test users
+            db.users.delete_one({'email': self.owner_email})
+            db.users.delete_one({'email': self.invitee_email})
+            db.users.delete_one({'email': self.viewer_email})
+            print(f"  Deleted test users")
             
         except Exception as e:
             print(f"{Colors.YELLOW}Warning: Cleanup failed: {str(e)}{Colors.RESET}")
