@@ -91,17 +91,20 @@ export default function Board() {
     <div
       ref={ref}
       onMouseMove={onMove}
-      className="relative min-h-screen"
+      className="relative min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900"
     >
-      <FloatingBackground />
+      {/* Animated background gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-2000" />
+      </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-6 pb-32">
+      <div className="container mx-auto px-4 sm:px-6 py-6 pb-32 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Kanban Board - Takes half width on large screens */}
           <div className="lg:col-span-1">
-            <div className="rounded-2xl p-4 sm:p-6 bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-white/20 shadow-xl">
-              <KanbanBoard />
-            </div>
+            <GlassyKanbanBoard />
           </div>
 
           {/* Notes Panel - Takes half width on large screens */}
