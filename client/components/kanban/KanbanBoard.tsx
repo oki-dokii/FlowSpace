@@ -170,7 +170,17 @@ export default function KanbanBoard() {
   };
 
   const handleCreateCard = async (columnId: string) => {
-    if (!currentBoard || !user) return;
+    if (!currentBoard) {
+      console.error("No current board available");
+      return;
+    }
+    
+    if (!user) {
+      console.error("No user logged in");
+      return;
+    }
+    
+    console.log("Creating card for column:", columnId, "board:", currentBoard._id);
     
     const newCardData = {
       columnId,
@@ -182,7 +192,9 @@ export default function KanbanBoard() {
 
     try {
       // Create card via API with correct parameters
+      console.log("Calling createCard API...");
       const response = await createCard(currentBoard._id, newCardData);
+      console.log("Card created successfully:", response);
       
       // Also emit via socket for real-time update to other users
       const socket = getSocket();
@@ -191,7 +203,11 @@ export default function KanbanBoard() {
       // Add to local state immediately
       setCards((prev) => [...prev, response.card]);
     } catch (err) {
-      console.error("Failed to create card:", err);
+      console.error("Failed to create card - Full error:", err);
+      if (err instanceof Error) {
+        console.error("Error message:", err.message);
+        console.error("Error stack:", err.stack);
+      }
     }
   };
 
