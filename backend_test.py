@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for FlowSpace Card Operations and Activity Logging
-Tests card CRUD operations and verifies activity logging functionality
+Backend API Testing for FlowSpace Invite & Collaboration System
+Tests invite creation, acceptance, and board member permissions
 """
 
 import requests
