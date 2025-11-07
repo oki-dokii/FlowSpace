@@ -70,6 +70,9 @@ export async function createServer(opts: { connectDB?: boolean } = {}) {
   // Create HTTP server and attach socket.io
   const server = http.createServer(app);
   const io = initSocket(server);
+  
+  // Attach io to app so controllers can access it
+  app.set('io', io);
 
   return { app, server, io };
 }
