@@ -67,10 +67,13 @@
 
 ## Next Steps
 1. ✅ ~~Backend testing for card CRUD operations and activity logging~~ - COMPLETED
-2. Frontend testing for card UI interactions
-3. Test card persistence after page reload (frontend)
-4. Test activity feed real-time updates (frontend)
-5. Debug why GlassyKanbanBoard is not rendering (frontend)
+2. ✅ ~~Debug GlassyKanbanBoard rendering~~ - FIXED (dev server issue)
+3. **NOW TESTING:** Invite & Collaboration System
+   - Create invite tokens
+   - Send invite emails
+   - Accept invites via link
+   - Test real-time collaboration
+   - Verify board member permissions
 
 ## Testing Notes
 - Services running locally on ports 3000 (frontend) and 8001/8002 (backend)
