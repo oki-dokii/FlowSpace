@@ -41,6 +41,8 @@ const CardSchema = new Schema<ICard>(
     title: { type: String, required: true },
     description: { type: String },
     assigneeId: { type: Schema.Types.ObjectId, ref: "User" },
+    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+    updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
     dueDate: { type: Date },
     tags: { type: [String], default: [] },
     order: { type: Number, default: 0 },
