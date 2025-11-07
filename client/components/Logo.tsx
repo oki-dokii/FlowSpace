@@ -1,3 +1,4 @@
+import React from 'react';
 import { Sparkles } from 'lucide-react';
 
 export default function Logo({ size = 'default' }: { size?: 'small' | 'default' | 'large' }) {
