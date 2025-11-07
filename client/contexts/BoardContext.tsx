@@ -92,9 +92,11 @@ export function BoardProvider({ children }: { children: ReactNode }) {
       value={{
         currentBoard,
         boards,
+        cards,
         isLoading,
         error,
         setCurrentBoard,
+        setCards,
         refreshBoards,
         createDemoBoard,
       }}
