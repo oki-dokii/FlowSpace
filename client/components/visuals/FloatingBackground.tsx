@@ -53,14 +53,12 @@ export default function FloatingBackground() {
             cy="85%"
             r="150"
             fill="rgba(99,102,241,0.04)"
-            transform="translate(calc(var(--mx,0)*30), calc(var(--my,0)*-30))"
           />
           <circle
             cx="85%"
             cy="15%"
             r="120"
             fill="rgba(124,58,237,0.03)"
-            transform="translate(calc(var(--mx,0)*-20), calc(var(--my,0)*20))"
           />
         </g>
       </svg>
