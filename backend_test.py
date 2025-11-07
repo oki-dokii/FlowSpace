@@ -294,41 +294,87 @@ class FlowSpaceInviteTester:
             traceback.print_exc()
             return False
     
-    def test_card_retrieval(self):
-        """Test GET /api/cards/:boardId/cards"""
-        print(f"\n{Colors.BOLD}Test 2: Card Retrieval{Colors.RESET}")
+    def test_accept_invite(self):
+        """Test POST /api/invite/:token/accept - Accept invite"""
+        print(f"\n{Colors.BOLD}Test 2: Accept Invite{Colors.RESET}")
         
-        url = f"{self.base_url}/api/cards/{self.board_id}/cards"
-        headers = {'Authorization': f'Bearer {self.token}'}
+        if not self.invite_token:
+            self.log_test("Accept Invite API", False, "No invite token available")
+            return False
+        
+        url = f"{self.base_url}/api/invite/{self.invite_token}/accept"
+        headers = {
+            'Authorization': f'Bearer {self.invitee_token}',
+            'Content-Type': 'application/json'
+        }
         
         try:
-            response = requests.get(url, headers=headers)
+            response = requests.post(url, headers=headers)
             
             if response.status_code == 200:
                 data = response.json()
-                if 'cards' in data:
-                    cards = data['cards']
-                    card_found = any(c['_id'] == self.card_id for c in cards)
+                
+                success = data.get('success') == True
+                has_board = 'board' in data
+                
+                self.log_test(
+                    "Accept Invite API",
+                    success and has_board,
+                    f"Invite accepted successfully" if success else f"Response: {data}"
+                )
+                
+                # Verify user added to board members
+                time.sleep(0.5)
+                from pymongo import MongoClient
+                from bson import ObjectId
+                client = MongoClient('mongodb://localhost:27017/flowspace')
+                db = client['flowspace']
+                
+                board = db.boards.find_one({'_id': ObjectId(self.board_id)})
+                if board:
+                    member_ids = [str(m['userId']) for m in board.get('members', [])]
+                    is_member = self.invitee_id in member_ids
+                    
+                    # Find the member entry
+                    member_role = None
+                    for m in board.get('members', []):
+                        if str(m['userId']) == self.invitee_id:
+                            member_role = m.get('role')
+                            break
                     
                     self.log_test(
-                        "Card Retrieval API",
-                        card_found,
-                        f"Retrieved {len(cards)} cards, test card found" if card_found else "Test card not found in response"
+                        "Board Membership Verification",
+                        is_member and member_role == 'editor',
+                        f"User added to board with role: {member_role}" if is_member else "User not added to board members"
                     )
-                    return card_found
                 else:
-                    self.log_test("Card Retrieval API", False, "Response missing 'cards' field")
-                    return False
+                    self.log_test("Board Membership Verification", False, "Board not found")
+                
+                # Verify invite status changed to 'accepted'
+                invite_doc = db.invites.find_one({'token': self.invite_token})
+                if invite_doc:
+                    status_ok = invite_doc['status'] == 'accepted'
+                    self.log_test(
+                        "Invite Status Update",
+                        status_ok,
+                        f"Invite status: {invite_doc['status']}"
+                    )
+                else:
+                    self.log_test("Invite Status Update", False, "Invite not found")
+                
+                return success
             else:
                 self.log_test(
-                    "Card Retrieval API",
+                    "Accept Invite API",
                     False,
                     f"Expected status 200, got {response.status_code}: {response.text}"
                 )
                 return False
                 
         except Exception as e:
-            self.log_test("Card Retrieval API", False, f"Exception: {str(e)}")
+            self.log_test("Accept Invite API", False, f"Exception: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return False
     
     def test_card_update(self):
