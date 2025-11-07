@@ -207,6 +207,8 @@ export default function GlassyKanbanBoard() {
     socket.emit('card:move', { cardId, columnId: newColumnId });
   };
 
+  const allCardIds = useMemo(() => localCards.map(c => c._id), [localCards]);
+
   return (
     <>
       <DndContext
@@ -214,35 +216,37 @@ export default function GlassyKanbanBoard() {
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="grid grid-cols-4 gap-4 w-full">
-          <AnimatePresence>
-            {columns.map((col, index) => {
-              const config = getColumnConfig(col.title);
-              return (
-                <motion.div
-                  key={col.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                >
-                  <GlassColumn
-                    id={col.id}
-                    title={col.title}
-                    icon={config.icon}
-                    gradient={config.gradient}
-                    borderColor={config.borderColor}
-                    glowColor={config.glowColor}
-                    iconColor={config.iconColor}
-                    badgeColor={config.badgeColor}
-                    items={byColumn[col.id] || []}
-                    onCreateCard={handleCreateCard}
-                    onEditCard={handleEditCard}
-                  />
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </div>
+        <SortableContext items={allCardIds} strategy={verticalListSortingStrategy}>
+          <div className="grid grid-cols-4 gap-4 w-full">
+            <AnimatePresence>
+              {columns.map((col, index) => {
+                const config = getColumnConfig(col.title);
+                return (
+                  <motion.div
+                    key={col.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                  >
+                    <GlassColumn
+                      id={col.id}
+                      title={col.title}
+                      icon={config.icon}
+                      gradient={config.gradient}
+                      borderColor={config.borderColor}
+                      glowColor={config.glowColor}
+                      iconColor={config.iconColor}
+                      badgeColor={config.badgeColor}
+                      items={byColumn[col.id] || []}
+                      onCreateCard={handleCreateCard}
+                      onEditCard={handleEditCard}
+                    />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        </SortableContext>
       </DndContext>
 
       <CardDialog
