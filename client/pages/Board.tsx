@@ -20,7 +20,6 @@ export default function Board() {
   const { isLoading: boardLoading } = useBoard();
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showInviteDialog, setShowInviteDialog] = useState(false);
