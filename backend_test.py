@@ -377,56 +377,71 @@ class FlowSpaceInviteTester:
             traceback.print_exc()
             return False
     
-    def test_card_update(self):
-        """Test PUT /api/cards/:id"""
-        print(f"\n{Colors.BOLD}Test 3: Card Update{Colors.RESET}")
+    def test_list_invites(self):
+        """Test GET /api/invite/board/:boardId - List invites"""
+        print(f"\n{Colors.BOLD}Test 3: List Invites{Colors.RESET}")
         
-        if not self.card_id:
-            self.log_test("Card Update API", False, "No card ID available for update test")
-            return False
-        
-        url = f"{self.base_url}/api/cards/{self.card_id}"
-        headers = {
-            'Authorization': f'Bearer {self.token}',
-            'Content-Type': 'application/json'
-        }
-        
-        update_data = {
-            'title': 'Updated Test Card - Backend Testing',
-            'description': 'This card has been updated by automated tests',
-            'tags': ['test', 'automation', 'updated']
-        }
+        url = f"{self.base_url}/api/invite/board/{self.board_id}"
+        headers = {'Authorization': f'Bearer {self.owner_token}'}
         
         try:
-            response = requests.put(url, json=update_data, headers=headers)
+            response = requests.get(url, headers=headers)
             
             if response.status_code == 200:
                 data = response.json()
-                if 'card' in data:
-                    card = data['card']
-                    update_ok = (
-                        card['title'] == update_data['title'] and
-                        card['description'] == update_data['description']
-                    )
-                    self.log_test(
-                        "Card Update API",
-                        update_ok,
-                        "Card updated successfully" if update_ok else "Card update fields mismatch"
-                    )
-                    return update_ok
+                
+                if 'invites' in data:
+                    invites = data['invites']
+                    
+                    # Find our test invite
+                    test_invite = None
+                    for inv in invites:
+                        if inv.get('email') == self.invitee_email:
+                            test_invite = inv
+                            break
+                    
+                    if test_invite:
+                        # Check if user data is populated
+                        has_invited_by = 'invitedBy' in test_invite
+                        user_populated = False
+                        if has_invited_by and isinstance(test_invite['invitedBy'], dict):
+                            user_populated = 'name' in test_invite['invitedBy'] or 'email' in test_invite['invitedBy']
+                        
+                        self.log_test(
+                            "List Invites API",
+                            True,
+                            f"Found {len(invites)} invite(s), test invite present"
+                        )
+                        
+                        self.log_test(
+                            "Invite User Population",
+                            user_populated,
+                            "User data populated in invite" if user_populated else "User data not populated"
+                        )
+                        
+                        return True
+                    else:
+                        self.log_test(
+                            "List Invites API",
+                            False,
+                            f"Test invite not found. Found {len(invites)} invites"
+                        )
+                        return False
                 else:
-                    self.log_test("Card Update API", False, "Response missing 'card' field")
+                    self.log_test("List Invites API", False, "Response missing 'invites' field")
                     return False
             else:
                 self.log_test(
-                    "Card Update API",
+                    "List Invites API",
                     False,
                     f"Expected status 200, got {response.status_code}: {response.text}"
                 )
                 return False
                 
         except Exception as e:
-            self.log_test("Card Update API", False, f"Exception: {str(e)}")
+            self.log_test("List Invites API", False, f"Exception: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return False
     
     def test_activity_logging(self):
