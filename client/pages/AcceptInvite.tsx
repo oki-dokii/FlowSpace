@@ -38,8 +38,8 @@ export default function AcceptInvite() {
     try {
       setStatus('loading');
       
-      const API_URL = import.meta.env.VITE_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
-      const response = await fetch(`${API_URL}/api/invite/${token}/accept`, {
+      // Use relative URL to work in both dev and production (through proxy)
+      const response = await fetch(`/api/invite/${token}/accept`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
