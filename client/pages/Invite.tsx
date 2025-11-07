@@ -27,7 +27,7 @@ export default function Invite() {
   async function handleSend(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;
-    if (!currentBoard) {
+    if (!selectedBoardId) {
       toast({
         title: 'No board selected',
         description: 'Please select a board first',
@@ -39,7 +39,7 @@ export default function Invite() {
     try {
       setSending(true);
       
-      const API_URL = import.meta.env.VITE_BACKEND_URL || (window as any).REACT_APP_BACKEND_URL || 'http://localhost:8001';
+      const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8001';
       const response = await fetch(`${API_URL}/api/invite`, {
         method: 'POST',
         headers: {
@@ -48,23 +48,23 @@ export default function Invite() {
         credentials: 'include',
         body: JSON.stringify({
           email,
-          boardId: currentBoard._id,
+          boardId: selectedBoardId,
           role,
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
+        const data = await response.json();
         throw new Error(data.message || 'Failed to send invite');
       }
 
+      const data = await response.json();
       setSent(true);
       setInviteLink(data.inviteLink || '');
       
       toast({
         title: 'Invite sent!',
-        description: data.warning || `Invitation sent to ${email}`,
+        description: data.warning || `Invitation link created for ${email}`,
       });
       
       setTimeout(() => {
@@ -72,6 +72,7 @@ export default function Invite() {
         setEmail('');
       }, 3000);
     } catch (err: any) {
+      console.error('Invite error:', err);
       toast({
         title: 'Failed to send invite',
         description: err.message || 'Please check your connection',
