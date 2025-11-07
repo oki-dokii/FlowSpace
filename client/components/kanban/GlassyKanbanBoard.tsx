@@ -353,10 +353,12 @@ function GlassColumn({
 }
 
 function CardFooter({ card }: { card: CardType }) {
+  const { user } = useAuth();
   const creator = card.createdBy || card.updatedBy;
-  const userName = creator?.name || 'Unknown';
-  const userEmail = creator?.email || '';
-  const avatarUrl = creator?.avatarUrl;
+  // Fallback to current user if creator info not available
+  const userName = creator?.name || user?.name || 'User';
+  const userEmail = creator?.email || user?.email || '';
+  const avatarUrl = creator?.avatarUrl || user?.avatarUrl;
   
   return (
     <div className="flex items-center justify-between pt-2 border-t border-white/10">
