@@ -38,10 +38,15 @@ export const createCard: RequestHandler = async (req, res, next) => {
       history: [],
     });
 
+    // Populate user data before broadcasting
+    const populatedCard = await Card.findById(card._id)
+      .populate('createdBy', 'name email avatarUrl')
+      .populate('updatedBy', 'name email avatarUrl');
+
     // Broadcast card creation to all clients
     const io = (req as any).app.get('io');
     if (io) {
-      io.emit('card:create', card);
+      io.emit('card:create', populatedCard);
     }
 
     // Log activity
