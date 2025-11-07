@@ -2,4 +2,5 @@
 cd /app
 export HOST="0.0.0.0"
 export PORT="3000"
-exec pnpm dev
+export NODE_OPTIONS="--max-old-space-size=2048"
+exec pnpm dev 2>&1
