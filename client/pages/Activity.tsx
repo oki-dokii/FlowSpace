@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, MessageSquare, UserPlus, Clock, Loader2, User } from 'lucide-react';
+import { CheckCircle2, MessageSquare, UserPlus, Clock, Loader2, User, Trash2, Edit3, Plus, Activity as ActivityIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { listActivities } from '@/lib/api-teams';
 import { getSocket } from '@/lib/socket';
 import { formatDistanceToNow } from 'date-fns';
+import { motion } from 'framer-motion';
 
 interface Activity {
   _id: string;
