@@ -24,6 +24,7 @@ import { FlowFooter } from "./components/FlowFooter";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BoardProvider } from "./contexts/BoardContext";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
