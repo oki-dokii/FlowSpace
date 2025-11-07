@@ -90,15 +90,16 @@ export function BoardProvider({ children }: { children: ReactNode }) {
     // Set up socket listeners for real-time updates
     const socket = getSocket();
     
-    socket.on('card:created', (newCard: any) => {
+    socket.on('card:create', (newCard: any) => {
       setCards((prev) => [...prev, newCard]);
     });
     
-    socket.on('card:updated', (updatedCard: any) => {
+    socket.on('card:update', (updatedCard: any) => {
       setCards((prev) => prev.map(c => c._id === updatedCard._id ? updatedCard : c));
     });
     
-    socket.on('card:deleted', (cardId: string) => {
+    socket.on('card:delete', (data: any) => {
+      const cardId = data.id || data._id;
       setCards((prev) => prev.filter(c => c._id !== cardId));
     });
     
@@ -108,9 +109,9 @@ export function BoardProvider({ children }: { children: ReactNode }) {
 
     return () => {
       // Clean up socket listeners
-      socket.off('card:created');
-      socket.off('card:updated');
-      socket.off('card:deleted');
+      socket.off('card:create');
+      socket.off('card:update');
+      socket.off('card:delete');
       socket.off('card:moved');
       
       // Clean up socket room when unmounting
