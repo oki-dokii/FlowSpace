@@ -112,13 +112,19 @@ export const deleteCard: RequestHandler = async (req, res, next) => {
     if (card) {
       try {
         const Activity = (await import('../models/Activity')).default;
-        await Activity.create({
+        const activity = await Activity.create({
           userId,
           boardId: card.boardId,
           action: `deleted card "${card.title}"`,
           targetType: 'card',
           targetId: card._id,
         });
+        
+        // Emit real-time activity update
+        const io = (req as any).app.get('io');
+        if (io) {
+          io.to(card.boardId.toString()).emit('activity:new', activity);
+        }
       } catch (activityErr) {
         console.error('Failed to log activity:', activityErr);
       }
