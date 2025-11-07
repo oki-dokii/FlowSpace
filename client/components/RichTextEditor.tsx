@@ -92,9 +92,9 @@ export default function RichTextEditor({
         .rich-text-editor .ql-container {
           border-bottom-left-radius: 8px;
           border-bottom-right-radius: 8px;
-          border: 1px solid rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           border-top: none;
-          background: white;
+          background: rgba(255, 255, 255, 0.03);
         }
         
         .rich-text-editor .ql-toolbar button {
