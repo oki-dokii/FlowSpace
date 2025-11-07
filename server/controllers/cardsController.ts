@@ -55,7 +55,7 @@ export const createCard: RequestHandler = async (req, res, next) => {
       });
       
       // Populate user data before emitting
-      const populated = await Activity.findById(activity._id).populate('userId', 'name email');
+      const populated = await Activity.findById(activity._id).populate('userId', 'name email avatarUrl');
       
       // Emit real-time activity update
       if (io) {
