@@ -35,13 +35,19 @@ export const createCard: RequestHandler = async (req, res, next) => {
     // Log activity
     try {
       const Activity = (await import('../models/Activity')).default;
-      await Activity.create({
+      const activity = await Activity.create({
         userId,
         boardId,
         action: `created card "${title}"`,
         targetType: 'card',
         targetId: card._id,
       });
+      
+      // Emit real-time activity update
+      const io = (req as any).app.get('io');
+      if (io) {
+        io.to(boardId).emit('activity:new', activity);
+      }
     } catch (activityErr) {
       console.error('Failed to log activity:', activityErr);
     }
