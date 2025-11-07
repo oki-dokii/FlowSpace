@@ -14,7 +14,19 @@ from typing import Dict, Optional
 
 # Configuration
 BACKEND_URL = "http://localhost:8001"
-JWT_SECRET = os.environ.get('JWT_ACCESS_SECRET', 'emergent_flowspace_access_secret_')
+
+# Load JWT secret from .env file
+def load_jwt_secret():
+    try:
+        with open('/app/.env', 'r') as f:
+            for line in f:
+                if line.startswith('JWT_ACCESS_SECRET='):
+                    return line.split('=', 1)[1].strip()
+    except:
+        pass
+    return 'emergent_flowspace_access_secret_'
+
+JWT_SECRET = load_jwt_secret()
 
 class Colors:
     GREEN = '\033[92m'
