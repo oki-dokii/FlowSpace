@@ -134,7 +134,23 @@
 - **Socket.io:** Real-time events for card operations and board membership
 - **Permissions:** Role-based access control working correctly
 
-## Changes Made (Latest Session - Avatar & Activity Tracking)
+## Changes Made (Latest Session - SMTP Email Testing)
+1. ✅ Created comprehensive SMTP email testing suite (backend_smtp_test.py)
+2. ✅ Verified SMTP configuration in /app/.env:
+   - SMTP_EMAIL: kakolibanerjee986@gmail.com
+   - SMTP_PASSWORD: App password configured
+   - FRONTEND_URL: http://localhost:3000
+   - APP_URL: http://localhost:3000
+3. ✅ Tested complete invite flow with email sending (4 tests)
+4. ✅ Tested invite with board selection (4 tests)
+5. ✅ Tested accept invite and join board (3 tests)
+6. ✅ Tested collaboration after invite (4 tests)
+7. ✅ Tested permission system (3 tests)
+8. ✅ All 18 SMTP email tests passing successfully
+9. ✅ Email sending working correctly (no errors in backend logs)
+10. ✅ Invite links generated with correct format: {FRONTEND_URL}/invite/{token}
+
+## Previous Changes (Avatar & Activity Tracking)
 1. ✅ Rebuilt backend server to include createdBy/updatedBy fields in card creation
 2. ✅ Updated activity controller to populate avatarUrl in user data
 3. ✅ Added avatarUrl to all user population queries (cards, activities, invites)
