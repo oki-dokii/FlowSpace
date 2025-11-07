@@ -191,19 +191,15 @@ export function NotesPanel() {
         </div>
       </div>
 
-      <div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-0 flex-1 overflow-hidden">
-        <textarea
+      <div className="flex-1 overflow-hidden p-4">
+        <RichTextEditor
           value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
+          onChange={(newValue) => {
+            setValue(newValue);
             setEditing(true);
           }}
-          className="resize-none p-4 bg-transparent outline-none text-sm font-mono border-r border-white/30 dark:border-white/10 h-full"
-          placeholder="Start typing your notes..."
-        />
-        <div
-          className="p-4 overflow-auto prose prose-sm md:prose-base dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: preview }}
+          placeholder="Start typing your notes... (Full Google Docs-like features available)"
+          className="h-full"
         />
       </div>
 
