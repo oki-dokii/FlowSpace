@@ -182,9 +182,15 @@ export default function KanbanBoard() {
     };
 
     try {
-      // Emit via socket for real-time update
+      // Create card via API
+      const response = await createCard(newCardData);
+      
+      // Also emit via socket for real-time update to other users
       const socket = getSocket();
-      socket.emit("card:create", newCardData);
+      socket.emit("card:create", response.card);
+      
+      // Add to local state immediately
+      setCards((prev) => [...prev, response.card]);
     } catch (err) {
       console.error("Failed to create card:", err);
     }
