@@ -130,13 +130,11 @@ export default function GlassyKanbanBoard() {
           createdBy: user.id,
         });
         setLocalCards((prev) => [...prev, response.card]);
-        const socket = getSocket();
-        socket.emit('card:create', response.card);
+        // Don't emit socket event - server will broadcast it
       } else if (editingCard) {
         const response = await updateCardAPI(editingCard._id, data);
         setLocalCards((prev) => prev.map(c => c._id === editingCard._id ? response.card : c));
-        const socket = getSocket();
-        socket.emit('card:update', response.card);
+        // Don't emit socket event - server will broadcast it
       }
     } catch (err) {
       console.error('Failed to save card:', err);
