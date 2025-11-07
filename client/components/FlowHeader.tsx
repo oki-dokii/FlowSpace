@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import {
@@ -14,13 +14,16 @@ import {
   Moon,
   SunMedium,
   LogOut,
-  Settings,
+  Settings as SettingsIcon,
   User2,
   Users,
   LayoutGrid,
+  LogIn,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+import { firebaseSignOut } from "@/lib/firebase";
 
 export function FlowHeader() {
   const { theme, setTheme } = useTheme();
