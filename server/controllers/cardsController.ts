@@ -70,7 +70,7 @@ export const createCard: RequestHandler = async (req, res, next) => {
       console.error('Failed to log activity:', activityErr);
     }
 
-    res.status(201).json({ card });
+    res.status(201).json({ card: populatedCard || card });
   } catch (err) {
     next(err);
   }
