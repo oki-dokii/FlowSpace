@@ -26,6 +26,8 @@ export const createCard: RequestHandler = async (req, res, next) => {
       title,
       description,
       assigneeId,
+      createdBy: userId,
+      updatedBy: userId,
       dueDate,
       tags: tags || [],
       order: Date.now(),
