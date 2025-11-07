@@ -208,7 +208,7 @@ None - All backend collaboration features with avatars, activity tracking, and S
 2. ✅ ~~Debug GlassyKanbanBoard rendering~~ - FIXED (dev server issue)
 3. ✅ ~~Invite & Collaboration System~~ - COMPLETED
    - ✅ Create invite tokens
-   - ✅ Send invite emails (SMTP optional, returns link)
+   - ✅ Send invite emails (SMTP configured and working)
    - ✅ Accept invites via link
    - ✅ Verify board member permissions
    - ✅ Test role-based access control
@@ -217,7 +217,14 @@ None - All backend collaboration features with avatars, activity tracking, and S
    - ✅ Card updates with user attribution
    - ✅ Activity feed with user avatars
    - ✅ Multiple users collaboration
-5. **READY FOR:** Frontend testing or additional feature development
+5. ✅ ~~SMTP Email Testing~~ - COMPLETED
+   - ✅ Complete invite flow with email sending
+   - ✅ Invite with board selection
+   - ✅ Accept invite and join board
+   - ✅ Verify collaboration after invite
+   - ✅ Test permissions (viewer role)
+   - ✅ All 18 tests passing
+6. **READY FOR:** Frontend testing or additional feature development
 
 ## Testing Notes
 - Services running locally on ports 3000 (frontend) and 8001/8002 (backend)
