@@ -125,11 +125,11 @@ export default function RichTextEditor({
         }
         
         .rich-text-editor .ql-stroke {
-          stroke: rgba(255, 255, 255, 0.7);
+          stroke: rgba(255, 255, 255, 0.9);
         }
         
         .rich-text-editor .ql-fill {
-          fill: rgba(255, 255, 255, 0.7);
+          fill: rgba(255, 255, 255, 0.9);
         }
         
         .rich-text-editor .ql-picker-label {
