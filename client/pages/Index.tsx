@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import FloatingBackground from "@/components/visuals/FloatingBackground";
 import IndexPreview from "@/components/visuals/IndexPreview";
