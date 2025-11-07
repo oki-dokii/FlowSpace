@@ -190,14 +190,14 @@ export function NotesPanel() {
         </div>
       </div>
 
-      <div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-0 h-[520px]">
+      <div className="grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-0 flex-1 overflow-hidden">
         <textarea
           value={value}
           onChange={(e) => {
             setValue(e.target.value);
             setEditing(true);
           }}
-          className="resize-none p-4 bg-transparent outline-none text-sm font-mono border-r border-white/30 dark:border-white/10"
+          className="resize-none p-4 bg-transparent outline-none text-sm font-mono border-r border-white/30 dark:border-white/10 h-full"
           placeholder="Start typing your notes..."
         />
         <div
