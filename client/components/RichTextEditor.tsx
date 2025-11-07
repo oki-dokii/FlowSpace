@@ -81,9 +81,9 @@ export default function RichTextEditor({
         .rich-text-editor .ql-toolbar {
           border-top-left-radius: 8px;
           border-top-right-radius: 8px;
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.08);
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 2px solid rgba(255, 255, 255, 0.2);
           padding: 10px 12px;
           display: flex;
           flex-wrap: wrap;
@@ -93,9 +93,9 @@ export default function RichTextEditor({
         .rich-text-editor .ql-container {
           border-bottom-left-radius: 8px;
           border-bottom-right-radius: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 2px solid rgba(255, 255, 255, 0.2);
           border-top: none;
-          background: rgba(255, 255, 255, 0.03);
+          background: rgba(255, 255, 255, 0.05);
         }
         
         .rich-text-editor .ql-toolbar button {
