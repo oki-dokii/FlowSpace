@@ -261,7 +261,7 @@ function Column({
   return (
     <div
       ref={setNodeRef}
-      className="rounded-xl p-3 bg-white/70 dark:bg-white/5 backdrop-blur-lg border border-white/30 dark:border-white/10 shadow-lg min-h-[500px] max-h-[calc(100vh-250px)] flex flex-col"
+      className="rounded-xl p-3 bg-white/70 dark:bg-white/5 backdrop-blur-lg border border-white/30 dark:border-white/10 shadow-lg h-[600px] flex flex-col"
     >
       <div className="flex items-center justify-between px-1 pb-3 mb-2">
         <h3 className="font-semibold text-sm tracking-wide text-foreground/90">
