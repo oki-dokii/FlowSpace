@@ -292,7 +292,7 @@ function Column({
         items={items.map((c) => c._id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-2.5 overflow-y-auto flex-1 pr-1 custom-scrollbar">
+        <div className="space-y-4 overflow-y-auto flex-1 pr-1 custom-scrollbar pb-2">
           {items.map((card) => (
             <KanbanCard key={card._id} card={card} />
           ))}
