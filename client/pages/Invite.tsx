@@ -43,8 +43,8 @@ export default function Invite() {
     try {
       setSending(true);
       
-      const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8001';
-      const response = await fetch(`${API_URL}/api/invite`, {
+      // Use relative URL to work in both dev and production (through proxy)
+      const response = await fetch('/api/invite', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
