@@ -80,9 +80,9 @@ export default function RichTextEditor({
         .rich-text-editor .ql-toolbar {
           border-top-left-radius: 8px;
           border-top-right-radius: 8px;
-          background: #f9fafb;
+          background: rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           padding: 10px 12px;
           display: flex;
           flex-wrap: wrap;
