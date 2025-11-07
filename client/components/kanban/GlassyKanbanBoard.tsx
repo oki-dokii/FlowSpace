@@ -319,19 +319,33 @@ function GlassColumn({
       {/* Cards */}
       <SortableContext items={items.map((c) => c._id)} strategy={verticalListSortingStrategy}>
         <div className="relative flex-1 overflow-y-auto space-y-3 pr-1 custom-scrollbar">
-          <AnimatePresence>
-            {items.map((card, index) => (
-              <motion.div
-                key={card._id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <GlassCard card={card} onEdit={() => onEditCard(card)} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {items.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center py-12 px-4 text-center"
+            >
+              <div className={cn('mb-3 p-3 rounded-xl', badgeColor)}>
+                <Icon className={cn('h-8 w-8', iconColor)} />
+              </div>
+              <p className="text-sm font-medium text-white/70 mb-1">No cards yet</p>
+              <p className="text-xs text-white/50">Click below to add your first card</p>
+            </motion.div>
+          ) : (
+            <AnimatePresence>
+              {items.map((card, index) => (
+                <motion.div
+                  key={card._id}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <GlassCard card={card} onEdit={() => onEditCard(card)} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          )}
         </div>
       </SortableContext>
 
