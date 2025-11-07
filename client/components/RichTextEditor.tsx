@@ -74,7 +74,7 @@ export default function RichTextEditor({
         .rich-text-editor .ql-editor {
           min-height: 400px;
           padding: 20px;
-          color: #1a1a1a;
+          color: rgba(255, 255, 255, 0.9);
         }
         
         .rich-text-editor .ql-toolbar {
