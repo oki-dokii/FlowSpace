@@ -38,7 +38,7 @@ export const createActivity: RequestHandler = async (req, res, next) => {
 
     const populated = await Activity.findById(activity._id).populate(
       'userId',
-      'name email'
+      'name email avatarUrl'
     );
     res.status(201).json({ activity: populated });
   } catch (err) {
