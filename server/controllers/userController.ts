@@ -44,10 +44,17 @@ export const uploadAvatar: RequestHandler = async (req, res, next) => {
     const userId = anyReq.userId;
     if (!userId) return res.status(401).json({ message: 'Not authenticated' });
 
-    const file = req.file;
-    if (!file) return res.status(400).json({ message: 'No file uploaded' });
+    // Handle both file upload and direct URL
+    let avatarUrl = '';
+    
+    if (req.file) {
+      avatarUrl = `/uploads/avatars/${req.file.filename}`;
+    } else if (req.body.avatarUrl) {
+      avatarUrl = req.body.avatarUrl;
+    } else {
+      return res.status(400).json({ message: 'No avatar provided' });
+    }
 
-    const avatarUrl = `/uploads/avatars/${file.filename}`;
     const user = await User.findByIdAndUpdate(
       userId,
       { avatar: avatarUrl },
@@ -56,7 +63,7 @@ export const uploadAvatar: RequestHandler = async (req, res, next) => {
 
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    res.json({ user, avatarUrl });
+    res.json({ user, avatarUrl, success: true });
   } catch (err) {
     next(err);
   }
