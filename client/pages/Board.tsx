@@ -63,6 +63,24 @@ export default function Board() {
     }
   };
 
+  // Show loading state while checking authentication
+  if (authLoading || boardLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-indigo-500" />
+          <p className="text-muted-foreground">Loading your workspace...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    navigate('/login');
+    return null;
+  }
+
   return (
     <div
       ref={ref}
