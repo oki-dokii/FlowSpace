@@ -85,24 +85,34 @@ export default function Activity() {
           ) : (
             activities.map((activity) => {
               const Icon = getIcon(activity.entityType);
+              const userName = activity.userId?.name || 'Someone';
+              const userEmail = activity.userId?.email || '';
+              const avatarUrl = activity.userId?.avatarUrl;
+              
               return (
                 <div
                   key={activity._id}
                   className="flex items-start gap-3 p-3 rounded-lg bg-white/60 dark:bg-white/5 border border-white/20 hover:shadow-md transition-shadow"
                 >
-                  <div className="p-2 rounded-md bg-indigo-500/10 text-indigo-600">
-                    <Icon className="h-5 w-5" />
-                  </div>
+                  <Avatar className="h-9 w-9">
+                    <AvatarImage src={avatarUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${userName}`} />
+                    <AvatarFallback>
+                      <User className="h-5 w-5" />
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="flex-1">
                     <div className="text-sm">
                       <span className="font-medium">
-                        {activity.userId?.name || 'Someone'}
+                        {userName}
                       </span>{' '}
                       {activity.action}
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">
                       {formatDistanceToNow(new Date(activity.createdAt), { addSuffix: true })}
                     </div>
+                  </div>
+                  <div className="p-2 rounded-md bg-indigo-500/10 text-indigo-600">
+                    <Icon className="h-4 w-4" />
                   </div>
                 </div>
               );
