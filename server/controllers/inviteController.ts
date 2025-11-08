@@ -199,10 +199,35 @@ export const acceptInvite: RequestHandler = async (req, res, next) => {
     invite.status = 'accepted';
     await invite.save();
 
+    // Log activity for invite acceptance
+    const { Activity } = await import('../models/Activity');
+    const { User } = await import('../models/User');
+    const user = await User.findById(userId);
+    
+    if (user) {
+      await Activity.create({
+        userId,
+        userName: user.name,
+        userAvatar: user.avatarUrl,
+        action: 'joined',
+        entityType: 'board',
+        entityId: board._id.toString(),
+        entityTitle: board.title,
+        description: `${user.name} joined the board`,
+        timestamp: new Date(),
+      });
+    }
+
     // Emit socket event to notify board members
     const io = (req as any).app.get('io');
     if (io) {
       io.emit('board:member-joined', { boardId: board._id, userId });
+      // Emit activity update
+      io.emit('activity:new', {
+        userId,
+        boardId: board._id.toString(),
+        action: 'joined',
+      });
     }
 
     res.json({ 
