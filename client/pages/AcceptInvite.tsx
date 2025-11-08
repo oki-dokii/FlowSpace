@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Loader2, CheckCircle2, XCircle, Users } from 'lucide-react';
+import { Loader2, CheckCircle2, XCircle, Users, Mail, ShieldCheck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth, getAccessToken } from '@/contexts/AuthContext';
+
+interface InviteDetails {
+  email: string;
+  role: string;
+  invitedBy: {
+    name: string;
+    email: string;
+  };
+  board: {
+    _id: string;
+    title: string;
+    description?: string;
+  };
+}
 
 export default function AcceptInvite() {
   const { token } = useParams<{ token: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [status, setStatus] = useState<'loading' | 'loaded' | 'accepting' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('');
-  const [boardInfo, setBoardInfo] = useState<any>(null);
+  const [inviteDetails, setInviteDetails] = useState<InviteDetails | null>(null);
 
   useEffect(() => {
     // Wait for auth to load
@@ -24,11 +38,11 @@ export default function AcceptInvite() {
       return;
     }
 
-    // Accept the invite
-    acceptInvite();
+    // Fetch invite details
+    fetchInviteDetails();
   }, [authLoading, isAuthenticated, token]);
 
-  const acceptInvite = async () => {
+  const fetchInviteDetails = async () => {
     if (!token) {
       setStatus('error');
       setMessage('Invalid invite link');
@@ -38,13 +52,46 @@ export default function AcceptInvite() {
     try {
       setStatus('loading');
       
+      // Fetch invite details (public endpoint, but we still send token for better UX)
+      const response = await fetch(`/api/invite/${token}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Invite not found or expired');
+      }
+
+      setInviteDetails(data.invite);
+      setStatus('loaded');
+    } catch (err: any) {
+      setStatus('error');
+      setMessage(err.message || 'Failed to load invite details');
+      toast({
+        title: 'Error',
+        description: err.message || 'Failed to load invite',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleAccept = async () => {
+    if (!token) return;
+
+    try {
+      setStatus('accepting');
+      
       // Get JWT token for authentication
       const authToken = getAccessToken();
       if (!authToken) {
         throw new Error('Please sign in to accept the invite');
       }
       
-      // Use relative URL to work in both dev and production (through proxy)
       const response = await fetch(`/api/invite/${token}/accept`, {
         method: 'POST',
         headers: {
@@ -61,21 +108,16 @@ export default function AcceptInvite() {
       }
 
       setStatus('success');
-      setMessage(data.message || 'Invite accepted successfully!');
-      setBoardInfo(data.board);
+      setMessage('You can now collaborate on this board!');
 
       toast({
         title: 'Success!',
-        description: 'You can now collaborate on this board',
+        description: 'Invite accepted successfully',
       });
 
       // Redirect to the board after 2 seconds
       setTimeout(() => {
-        if (data.board?._id) {
-          navigate(`/board`);
-        } else {
-          navigate('/');
-        }
+        navigate(`/board`);
       }, 2000);
     } catch (err: any) {
       setStatus('error');
@@ -86,6 +128,14 @@ export default function AcceptInvite() {
         variant: 'destructive',
       });
     }
+  };
+
+  const handleReject = () => {
+    toast({
+      title: 'Invite Declined',
+      description: 'You have declined the invitation',
+    });
+    navigate('/');
   };
 
   if (authLoading) {
