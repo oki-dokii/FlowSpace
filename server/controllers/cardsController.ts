@@ -158,16 +158,21 @@ export const deleteCard: RequestHandler = async (req, res, next) => {
     // Log activity
     if (card) {
       try {
+        const { User } = await import('../models/User');
+        const user = await User.findById(userId);
+        
         const activity = await Activity.create({
           userId,
+          userName: user?.name || 'Unknown User',
+          userAvatar: user?.avatarUrl,
           boardId: card.boardId,
-          action: `deleted card "${card.title}"`,
+          action: 'deleted',
           entityType: 'card',
-          entityId: card._id,
+          entityId: card._id.toString(),
+          entityTitle: card.title,
+          description: `${user?.name || 'Someone'} deleted card "${card.title}"`,
+          timestamp: new Date(),
         });
-        
-        // Populate user data before emitting
-        const populated = await Activity.findById(activity._id).populate('userId', 'name email');
         
         // Emit real-time activity update
         if (io) {
