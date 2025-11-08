@@ -61,10 +61,9 @@ export const sendInvite: RequestHandler = async (req, res, next) => {
       });
     }
 
-    // Get the actual domain from the request headers (works in both dev and production)
-    const protocol = (req as any).protocol || 'https';
-    const host = (req as any).get('host') || 'localhost:3000';
-    const baseUrl = `${protocol}://${host}`;
+    // Use APP_URL from environment (for preview/production) or fallback to request headers
+    const baseUrl = process.env.APP_URL || process.env.FRONTEND_URL || 
+                    `${(req as any).protocol || 'https'}://${(req as any).get('host') || 'localhost:3000'}`;
     const inviteLink = `${baseUrl}/invite/${invite.token}`;
 
     const mailOptions = {
