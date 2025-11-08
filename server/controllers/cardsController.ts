@@ -176,7 +176,7 @@ export const deleteCard: RequestHandler = async (req, res, next) => {
         
         // Emit real-time activity update
         if (io) {
-          io.emit('activity:new', populated);
+          io.emit('activity:new', activity);
         }
       } catch (activityErr) {
         console.error('Failed to log activity:', activityErr);
