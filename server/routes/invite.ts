@@ -4,6 +4,18 @@ import { authMiddleware } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
+// Test endpoint
+router.get('/', (req, res) => {
+  res.json({ 
+    message: 'Invite API is working',
+    endpoints: {
+      'POST /api/invite': 'Send invite (requires auth)',
+      'POST /api/invite/:token/accept': 'Accept invite (requires auth)',
+      'GET /api/invite/board/:boardId': 'List invites for a board (requires auth)'
+    }
+  });
+});
+
 // Send invite
 router.post('/', authMiddleware, sendInvite);
 
