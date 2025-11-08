@@ -109,6 +109,49 @@ export const sendInvite: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Get invite details (public - no auth required for viewing invite)
+export const getInviteDetails: RequestHandler = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+    if (!token) return res.status(400).json({ message: 'Token required' });
+
+    // Find invite
+    const invite = await Invite.findOne({ token }).populate('invitedBy', 'name email');
+    if (!invite) return res.status(404).json({ message: 'Invite not found' });
+
+    // Check if expired
+    if (new Date() > invite.expiresAt) {
+      return res.status(400).json({ message: 'Invite has expired' });
+    }
+
+    // Check if already used
+    if (invite.status === 'accepted') {
+      return res.status(400).json({ message: 'Invite already used' });
+    }
+
+    // Get board details
+    const board = await Board.findById(invite.boardId);
+    if (!board) return res.status(404).json({ message: 'Board not found' });
+
+    res.json({
+      success: true,
+      invite: {
+        email: invite.email,
+        role: invite.role,
+        invitedBy: invite.invitedBy,
+        board: {
+          _id: board._id,
+          title: board.title,
+          description: board.description
+        }
+      }
+    });
+  } catch (err) {
+    console.error('Get invite details error:', err);
+    next(err);
+  }
+};
+
 // Accept invite
 export const acceptInvite: RequestHandler = async (req, res, next) => {
   try {
